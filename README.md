@@ -35,6 +35,41 @@ A group is populated by instantiating a specific prefab within itself a number o
 This group actor script provides instantiated versions of this prefab with the functionality required to move and follow rules. Drag and drop the new prefab onto the 'Actor Prefab' field in your group's inspector; this will now be the prefab which is instantiated a number of times when the simulation starts.
 
 ### Rules
+Group rules define the behaviours of the group actors and are the most complex part of the process. To make a new rule and prepare it for development, follow the steps below.
+
+  1. Create a script in the project assets under 'Simulations > Rule Scripts' and name it appropriately (e.g. 'AvoidanceRule').
+  2. Open the script and delete the `Start()` and `Update` methods.
+  3. Change the base class from `MonoBehaviour` to `GroupRule`.
+  4. Add the following line above the class declaration, replacing X with your rule name: `[CreateAssetMenu(menuName = "Group/Rule/X")]`.
+  5. Declare and override the abstract method `CalculateMove` inherited from the `GroupRule` parent.
+  6. Return a 2D vector of zeros for now.
+
+The script should now contain the following code:
+
+```C#
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(menuName = "Group/Rule/Rule Name")]
+public class WalkRule : GroupRule
+{
+    public override Vector2 CalculateMove(GroupActor actor, List<Transform> neighbours, Group group)
+    {
+        // Rule code here
+        return Vector2.zero;
+    }
+}
+```
+
+Now that the rule has been made, its time to attach it to the group. The 'Rule' field of the group script on the group object requires an object of type 'GroupRule'. The `CreateAssetMenu()` line we implemented allows for the creation of a 'GroupRule' object prefab in the project assets. Go to 'Simulations > 'Rule Objects' in the assets, right click, then select 'Create > Group > Rule > RULE NAME'. Drag and drop this newly created 'GroupRule' prefab onto the 'Rule' field of your group. Your group now has everything it needs to run properly, try playing the project in unity and navigating to your simulation in the main menu. The screen should fill with randomly instantiations of your actor prefab.
+
+The reason why the actors are stationary is because the vector returned by the polymorphically overriden `CalculateMove()` method in the rule script is used by the 'Group' object to determine how far to move each 'GroupActor' object per tick and in which direction. As the method currently returns the vector `(0, 0)`, the actors will remain still. It is up to you to define how this vector is calculated when provided with the actor, its neighbours, and its group as parameters. For inspiration, check out the pre-implemented boid and random walk simulation rule scripts.
+
+#### Compound Rules
+
+
+### Filters
 ### Memories
 ### Parameters
 
