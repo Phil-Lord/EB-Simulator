@@ -70,9 +70,46 @@ The reason why the actors are stationary is because the vector returned by the p
 A compound rule is a rule that has been implemented as previously described, but contains a public array of `GroupRule` objects which it combines the calculated movements of into a single vector. Each rule within the compound rule is assigned a weight which it is multiplied by, determining how much each rule impacts the overall movement. In order to implement a compound rule, go to 'Simulations > Rule Objects' in the project assets, right click, then select 'Create > Group > Rule > Compound' and name it appropriately. Add and remove rule fields with the buttons in the inspector, then drag and drop rules into them and adjust the weights. To see a working compound rule implementation, select 'Purple Flock Rule'; this compound rule includes the rules required to simulate a flock of boids. Finally, drag and drop the compound rule object onto the group's 'Rule' field, as you would any rule.
 
 ### Filters
-Filters allow a rule to 
+Filters allow a rule to filter through the neighbours it is passed and select which ones to ignore. In order to make use of filters, the parent in a rule's script must be changed from `GroupRule` to its child: `FilterGroupRule`. This child class contains a public object of type `NeighbourhoodFilter`; objects of this class contain the abstract method `Filter()`, which takes an actor and an original list of actor `Transforms` (which will be the actor's neighbours) to filter through as parameters. In order to create and apply a filter to your rule, follow the steps below.
 
-### Memories
+  1. Change your rule's parent to `FilterGroupRule` in its script.
+  2. Go to 'Simulations > Filter Scripts' and create a new script; this will contain the filter logic.
+  3. Remove `Start()` and `Update()`, change the class' parent to `NeighbourhoodFilter`, and add `[CreateAssetMenu(menuName = Group/Filter/X)]`.
+  4. Declare and override the inherited abstract `Filter()` method and add `return original;`.
+
+The script should now contain the following code:
+
+```C#
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(menuName = "Group/Filter/Filter Name")]
+public class SameGroupFilter : NeighbourhoodFilter
+{
+    public override List<Transform> Filter(GroupActor actor, List<Transform> original)
+    {
+        return original;
+    }
+}
+```
+
+Now that the filter has been implemented, create an object of it under 'Simulations > Filter Objects' in the program assets with 'Create > Group > Filter > X', then drag and drop this object onto the 'Filter' field of your rule. In its current state, the filter will do nothing because it simply returns the list of transforms it was given; you can decide how the filter filters the original list within the filter script, for a working example see either `PhysicsLayerFilter` or `SameGroupFilter`. In order to make use of the filter within the rule, use the following line of code in the rule script:
+
+```C#
+neighbours = (filter == null) ? neighbours : filter.Filter(actor, neighbours);
+```
+
+### Memory
+A group's memory allows actors to store values for future use, such as the random walk actors needing to remember which point they are walking to. To give your group memory, go to 'Simulations > Memory Objects' in the project assets then drag and drop the 'Group Memory' object onto your group's 'Memory' field. Next, go to 'Simulations > Scripts' and open the 'GroupMemory.cs' script; this is where public attributes can be added to provide storage for specific memories. `positionMemory`, a variable of type `IDictionary<int, Vector2>` is already included, see how this is used in the 'RandomWalkRule.cs' script. Access any variables you make in 'GroupMemory' from within rule scripts using 'group.memory.variableName'.
+
 ### Parameters
+Finally, groups have five public variables which serve as parameters for adjusting actors; these parameters can be altered from both the Unity Editor and within the application while it runs.
+
+  - Starting Count: The number of actor prefabs instantiated within a group upon its start.
+  - Drive Factor: Adjusts the level of actor movement when less affected by rules.
+  - Max Speed: The maximum speed that the actors will aim to move at
+  - Neighbour Radius: The radius of each actor's circle for detecting other nearby objects (neighbours)
+  - Avoidance Radius Multiplier: The percentage size of each actor's neighbour radius that it should avoid objects within (0 = no avoidance, 1 = avoid all neighbours).
 
 ## Building
