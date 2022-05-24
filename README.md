@@ -67,7 +67,7 @@ Now that the rule has been made, its time to attach it to the group. The 'Rule' 
 The reason why the actors are stationary is because the vector returned by the polymorphically overriden `CalculateMove()` method in the rule script is used by the 'Group' object to determine how far to move each 'GroupActor' object per tick and in which direction. As the method currently returns the vector `(0, 0)`, the actors will remain still. It is up to you to define how this vector is calculated when provided with the actor, its neighbours, and its group as parameters. For inspiration, check out the pre-implemented boid and random walk simulation rule scripts.
 
 #### Compound Rules
-
+A compound rule is a rule that has been implemented as previously described, but contains a public array of `GroupRule` objects which it combines the calculated movements of into a single vector. Each rule within the compound rule is assigned a weight which it is multiplied by, determining how much each rule impacts the overall movement. In order to implement a compound rule, go to 'Simulations > Rule Objects' in the project assets, right click, then select 'Create > Group > Rule > Compound' and name it appropriately. Add and remove rule fields with the buttons in the inspector, then drag and drop rules into them and adjust the weights. To see a working compound rule implementation, select 'Purple Flock Rule'; this compound rule includes the rules required to simulate a flock of boids. Finally, drag and drop the compound rule object onto the group's 'Rule' field, as you would any rule.
 
 ### Filters
 ### Memories
