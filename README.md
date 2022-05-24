@@ -114,3 +114,9 @@ Finally, groups have five public variables which serve as parameters for adjusti
 
 ## Building
 Once a simulation has been added (along with groups, rules, memory, and filters), the project can be built and ran, ready to be distributed to students, other lecturers, or anyone who may find it useful.
+
+
+## Video
+The link below leads to a short video showing the implementation of the random walk simulation from start to finish (without rule code typing).
+
+https://youtu.be/Uxk4mlD6KNQ
