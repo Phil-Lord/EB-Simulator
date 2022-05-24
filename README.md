@@ -8,11 +8,11 @@ This project provides an object-oriented framework for developing and visualisin
 ## Requirements
 The minimum system requirements for the application depend on the complexity of simulations implemented. While a powerful CPU and dedicated GPU are beneficial, these are not necessary to run most simulations until several hundred actors are involved. As for developing simulations, the framework has been developed with Unity 2020 and written in C#. Therefore, Unity ([system requirements](https://docs.unity3d.com/2020.1/Documentation/Manual/system-requirements.html)) is required, as well as an IDE that supports C#, such as Visual Studio. The framework has been developed in and for Windows, and is yet to be tested in other operating systems.
 
-## Setup and Application Use
+## Installation and Application Use
 Cloning or downloading this repository will provide the Unity project and a working build containing two premade simulations: [boids](https://www.red3d.com/cwr/boids/) and [random walk](https://en.wikipedia.org/wiki/Random_walk). Run the 'EB Simulator.exe' file in the 'Build' folder to get an understanding of how the application works. On start, the application shows a main menu which lists all implemented simulations. Pressing the 'Load' button of a simulation in the list will load it, as well as a panel for adjusting predefined parameters and a button for showing and hiding obstacles. The simulation can be restarted with the 'Restart' button, and exited with the 'Home' button, allowing another simulation to be selected.
 
 ## Developing Simulations
-The process for adding new simulations to the application is simple, but consists of several moving parts. This section explains these parts and aids you through the development of simulations. Start by opening the project in Unity to begin developing simulations (the first time may take a minute).
+The process for adding new simulations to the application is simple, but consists of several moving parts. This section explains these parts and aids you through the development of simulations without going too in-depth on the framework's ins and outs; there is ample commenting within the code for this. Start by opening the project in Unity to begin developing simulations (the first time may take a minute).
 
 ### Groups
 Each simulation consists of at least one group `GameObject`; these groups are populated with actor prefabs upon instantiation. To implement a new simulation and group, follow the steps below.
@@ -113,3 +113,4 @@ Finally, groups have five public variables which serve as parameters for adjusti
   - Avoidance Radius Multiplier: The percentage size of each actor's neighbour radius that it should avoid objects within (0 = no avoidance, 1 = avoid all neighbours).
 
 ## Building
+Once a simulation has been added (along with groups, rules, memory, and filters), the project can be built and ran, ready to be distributed to students, other lecturers, or anyone who may find it useful.
