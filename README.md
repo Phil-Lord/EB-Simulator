@@ -51,8 +51,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Group/Rule/Rule Name")]
-public class WalkRule : GroupRule
+[CreateAssetMenu(menuName = "Group/Rule/X")]
+public class X : GroupRule
 {
     public override Vector2 CalculateMove(GroupActor actor, List<Transform> neighbours, Group group)
     {
@@ -84,8 +84,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Group/Filter/Filter Name")]
-public class SameGroupFilter : NeighbourhoodFilter
+[CreateAssetMenu(menuName = "Group/Filter/X")]
+public class X : NeighbourhoodFilter
 {
     public override List<Transform> Filter(GroupActor actor, List<Transform> original)
     {
