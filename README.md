@@ -119,4 +119,4 @@ Once a simulation has been added (along with groups, rules, memory, and filters)
 ## Video
 The link below leads to a short video showing the implementation of the random walk simulation from start to finish (without rule code typing).
 
-https://youtu.be/Uxk4mlD6KNQ
+https://youtu.be/UNwQYEj1rmQ
